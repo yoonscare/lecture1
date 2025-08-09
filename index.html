@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강의 관리 시스템</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="header">
+            <h1>📚 강의 관리 시스템</h1>
+            <p class="subtitle">강의안과 강의 앱을 효율적으로 관리하세요</p>
+        </header>
+
+        <!-- 네비게이션 -->
+        <nav class="navigation">
+            <button class="nav-btn active" data-tab="lectures">강의 목록</button>
+            <button class="nav-btn" data-tab="add">새 강의 추가</button>
+            <button class="nav-btn" data-tab="categories">카테고리 관리</button>
+            <button class="nav-btn" data-tab="statistics">통계</button>
+        </nav>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+            <!-- 강의 목록 탭 -->
+            <div id="lectures" class="tab-content active">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="강의 검색...">
+                    <select id="categoryFilter">
+                        <option value="">모든 카테고리</option>
+                        <option value="programming">프로그래밍</option>
+                        <option value="design">디자인</option>
+                        <option value="business">비즈니스</option>
+                        <option value="language">어학</option>
+                    </select>
+                    <select id="sortBy">
+                        <option value="date">최신순</option>
+                        <option value="name">이름순</option>
+                        <option value="popular">인기순</option>
+                    </select>
+                </div>
+
+                <div class="lectures-grid" id="lecturesGrid">
+                    <!-- 강의 카드들이 JavaScript로 동적 생성됩니다 -->
+                </div>
+            </div>
+
+            <!-- 새 강의 추가 탭 -->
+            <div id="add" class="tab-content">
+                <form id="addLectureForm" class="lecture-form">
+                    <h2>새 강의 추가</h2>
+                    
+                    <div class="form-group">
+                        <label for="lectureTitle">강의 제목</label>
+                        <input type="text" id="lectureTitle" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lectureInstructor">강사명</label>
+                        <input type="text" id="lectureInstructor" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lectureCategory">카테고리</label>
+                        <select id="lectureCategory" required>
+                            <option value="">선택하세요</option>
+                            <option value="programming">프로그래밍</option>
+                            <option value="design">디자인</option>
+                            <option value="business">비즈니스</option>
+                            <option value="language">어학</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lectureDuration">강의 시간 (분)</label>
+                        <input type="number" id="lectureDuration" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lectureDescription">강의 설명</label>
+                        <textarea id="lectureDescription" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lectureContent">강의 내용</label>
+                        <textarea id="lectureContent" rows="6" placeholder="강의안 내용을 입력하세요..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lectureThumbnail">썸네일 URL</label>
+                        <input type="url" id="lectureThumbnail" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lectureFiles">첨부 파일</label>
+                        <input type="file" id="lectureFiles" multiple accept=".pdf,.ppt,.pptx,.doc,.docx">
+                        <small>PDF, PPT, DOC 파일을 업로드할 수 있습니다</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">강의 추가</button>
+                </form>
+            </div>
+
+            <!-- 카테고리 관리 탭 -->
+            <div id="categories" class="tab-content">
+                <div class="categories-container">
+                    <h2>카테고리 관리</h2>
+                    
+                    <div class="category-stats">
+                        <div class="stat-card">
+                            <h3>프로그래밍</h3>
+                            <p class="stat-number">0</p>
+                            <p class="stat-label">강의</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>디자인</h3>
+                            <p class="stat-number">0</p>
+                            <p class="stat-label">강의</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>비즈니스</h3>
+                            <p class="stat-number">0</p>
+                            <p class="stat-label">강의</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>어학</h3>
+                            <p class="stat-number">0</p>
+                            <p class="stat-label">강의</p>
+                        </div>
+                    </div>
+
+                    <div class="add-category">
+                        <h3>새 카테고리 추가</h3>
+                        <div class="form-group">
+                            <input type="text" id="newCategoryName" placeholder="카테고리 이름">
+                            <button class="btn btn-secondary" onclick="addCategory()">추가</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 통계 탭 -->
+            <div id="statistics" class="tab-content">
+                <div class="statistics-container">
+                    <h2>강의 통계</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-icon">📚</div>
+                            <div class="stat-info">
+                                <h3>전체 강의</h3>
+                                <p id="totalLectures">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-info">
+                                <h3>총 강의 시간</h3>
+                                <p id="totalDuration">0분</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <h3>강사 수</h3>
+                                <p id="totalInstructors">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-icon">🏷️</div>
+                            <div class="stat-info">
+                                <h3>카테고리 수</h3>
+                                <p id="totalCategories">4</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>카테고리별 분포</h3>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 강의 상세 보기 모달 -->
+    <div id="lectureModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent">
+                <!-- 모달 내용이 JavaScript로 동적 생성됩니다 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
